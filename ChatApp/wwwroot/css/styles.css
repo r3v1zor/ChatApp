@@ -1,0 +1,138 @@
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100wh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #343434;
+    color: white;
+    height: 50px;
+    display: flex;
+    z-index: 100;
+}
+
+.main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.side-menu {
+    background-color: #343434;
+    min-width: 20%;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+}
+
+.room-header {
+    display: inline-flex;
+    flex-direction: row;
+    height: 30px;
+}
+
+.room-header-text {
+    margin-left: 0.5rem;
+    display: inline-flex;
+    color: white;
+}
+
+.add-room-btn {
+    flex-grow: 1;
+    color: #eeeeee;
+    display: inline-flex;
+    align-self: flex-end;
+    justify-content: center;
+    background-color: #343434;
+    margin-left: 2%;
+}
+
+.join-room-btn {
+    flex-grow: 1;
+    color: #eeeeee;
+    display: inline-flex;
+    align-self: flex-end;
+    justify-content: center;
+    background-color: #343434;
+    margin-left: 50%;
+}
+
+.room-btn {
+    border: 1px solid #eeeeee;
+    background-color: gray;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    margin-top: 1rem;
+}
+
+.chat {
+    background-color: #3b3f43;
+    flex-direction: column;
+    display: flex;
+    flex-grow: 1;
+}
+
+.chat-body {
+    background-color: #3b3f43;
+    color: #eeeeee;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+    overflow: auto;
+}
+
+.message {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.2rem;
+}
+
+.message > * {
+    padding: 0.2rem;
+}
+
+.message:first-child {
+    margin-top: auto;
+}
+
+.message > header {
+    font-weight: bold;
+    min-width: 100px;
+    text-align: right;
+}
+
+.message > p {
+    flex-grow: 5;
+    margin: 0;
+}
+
+.message > footer {
+    min-width: 60px;
+    text-align: center;
+}
+
+.chat-input {
+    background-color: #343434;
+    color: #eeeeee;
+    min-height: 200px;
+    display: flex;
+    flex-direction: row;
+    padding: 1rem;
+}
+
+.chat-input > input {
+    flex-grow: 3;
+}
+
+.chat-input > button {
+    flex-grow: 1;
+}

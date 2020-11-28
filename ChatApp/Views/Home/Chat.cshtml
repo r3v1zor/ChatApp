@@ -1,0 +1,89 @@
+@model Chat
+
+<div class="chat-body">
+    @foreach (var message in Model.Messages)
+    {
+        <div class="message">
+            <header>@message.AuthorName</header>
+            <p>@message.Text</p>
+            <footer>@message.Timestamp</footer>
+        </div>
+    }
+</div>
+
+<form class="chat-input" onsubmit="sendMessage(event)" asp-controller="Home" asp-action="CreateMessage">
+    <input type="hidden" name="chatId" value="@Model.Id">
+    <input type="hidden" name="roomName" value="@Model.Name">
+    <input id="message-input" type="text" name="text"/>
+    <button type="submit">Send</button>
+</form>
+
+@section Scripts {
+    <script src="~/js/signalr.min.js"></script>
+
+    <script>
+        let connection = new signalR.HubConnectionBuilder()
+                                        .withUrl("/chatHub")
+                                        .build();
+        
+        let _connectionId = '';
+        
+        // Message INSERT
+        connection.on("ReceiveMessage", function (data) {
+            // console.log(data);
+            let message = document.createElement("div");
+            message.classList.add("message");
+            let header = document.createElement("header");
+            header.appendChild(document.createTextNode(data.authorName));
+            
+            let p = document.createElement("p");
+            p.appendChild(document.createTextNode(data.text));
+                       
+            let footer = document.createElement("footer");
+            footer.appendChild(document.createTextNode(data.timestamp));
+            
+            message.appendChild(header);
+            message.appendChild(p);
+            message.appendChild(footer);
+            
+            let body = document.querySelector('.chat-body');
+            body.append(message);
+        });
+        
+        let joinRoom = function () {
+                    let url = '/Chat/JoinChat/' + _connectionId + '/@Model.Name';
+                    fetch(url,{
+                        method: "POST"
+                    })
+                    .then(data => console.log(data))
+                    .catch(err => console.log(err));
+                }
+        
+        connection.start()
+            .then(function () {
+                connection.invoke("getConnectionId").then(function (connectionId){
+                    _connectionId = connectionId;
+                    joinRoom();
+                });
+            })
+            .catch(function (err) {
+               console.log(err);
+            });
+        
+        // MESSAGE SENDING
+        
+        let form = null;
+        let sendMessage = function(event) {
+            event.preventDefault();   
+            let data = new FormData(event.target);
+            document.getElementById('message-input').value = '';
+            
+            fetch('/Chat/SendMessage', {
+                method: "POST",
+                body: data    
+            })
+            .then(console.log)
+            .catch(console.log);
+        }
+    </script>
+}
